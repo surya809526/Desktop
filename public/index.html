@@ -1,171 +1,31 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-<title>AI Desktop OS</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackOS Terminal Cloud</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
-
 <body>
 
-
-<div class="desktop">
-
-
-<div class="icons">
-
-<button onclick="openWindow('terminal')">
-💻 AI Terminal
-</button>
-
-
-<button onclick="openWindow('editor')">
-📝 Code Editor
-</button>
-
-
-<button onclick="openWindow('files')">
-📁 Files
-</button>
-
-
-</div>
-
-
-
-<div class="window" id="terminal">
-
-
-<div class="title">
-AI Terminal
-
-<span onclick="closeWindow('terminal')">
-✖
-</span>
-
-</div>
-
-
-<div id="output">
-
-AI Desktop Started...
-
-<br>
-C:\Users\User>
-
-</div>
-
-
-<input id="command"
-placeholder="Ask AI or type command">
-
-
-<button onclick="askAI()">
-RUN AI
-</button>
-
-
-</div>
-
-
-
-
-<div class="window" id="editor">
-
-
-<div class="title">
-
-Code Editor
-
-<span onclick="closeWindow('editor')">
-✖
-</span>
-
-</div>
-
-
-<textarea id="code">
-
-<h1>Hello AI</h1>
-
-</textarea>
-
-
-<button onclick="preview()">
-Preview
-</button>
-
-
-</div>
-
-
-
-
-<div class="window" id="files">
-
-
-<div class="title">
-
-File Explorer
-
-<span onclick="closeWindow('files')">
-✖
-</span>
-
-</div>
-
-
-<p>
-📂 Projects
-</p>
-
-<p>
-📄 index.html
-</p>
-
-<p>
-📄 script.js
-</p>
-
-
-</div>
-
-
-
-
-<div class="taskbar">
-
-<button onclick="startMenu()">
-
-🪟 Start
-
-</button>
-
-
-<div id="menu">
-
-AI Apps
-
-<br><br>
-
-Code Tools
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-<script src="script.js"></script>
-
-
+    <div class="terminal-container">
+        <div class="title-bar">
+            <span class="title">Command Prompt - Node Engine v1.0</span>
+            <div class="controls">
+                <span class="dot min"></span>
+                <span class="dot max"></span>
+                <span class="dot close"></span>
+            </div>
+        </div>
+        
+        <div class="terminal-body" id="terminalBody">
+            <pre id="output">HackOS Cloud Terminal Environment [Version 2026.1.0]&#10;(c) 2026 HackOS Corp. All rights reserved.&#10;&#10;Type Linux/Shell commands (e.g., 'ls', 'pwd', 'node -v')&#10;&#10;$ </pre>
+            <div class="input-line">
+                <input type="text" id="cmdInput" autofocus placeholder="Type command..." autocomplete="off">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-
 </html>
