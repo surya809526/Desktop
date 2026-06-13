@@ -1,20 +1,23 @@
+/* Overall Page Setup */
 body {
     background-color: #0b0f19;
     color: #00ff41;
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
-    padding: 20px;
+    padding: 10px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     height: 100vh;
     box-sizing: border-box;
 }
 
+/* 💻 Terminal Container - Making it Full Width on Mobile */
 .terminal-container {
     width: 100%;
     max-width: 900px;
-    height: 500px;
+    height: 60vh; /* Flexibly takes 60% of vertical screen */
     background-color: #000000;
     border: 2px solid #333;
     border-radius: 8px;
@@ -24,9 +27,10 @@ body {
     overflow: hidden;
 }
 
+/* Title Bar Configuration */
 .title-bar {
     background-color: #222;
-    padding: 10px;
+    padding: 8px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,24 +39,25 @@ body {
 
 .title {
     color: #bbb;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
 }
 
 .dot {
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    margin-left: 6px;
+    margin-left: 5px;
 }
 .close { background-color: #ff5f56; }
 .min { background-color: #ffbd2e; }
 .max { background-color: #27c93f; }
 
+/* Terminal Screen Content Window */
 .terminal-body {
     flex: 1;
-    padding: 15px;
+    padding: 12px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -60,16 +65,16 @@ body {
 
 #output {
     margin: 0;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    white-space: pre; /* Game board grid line height alignment ke liye critical */
+    word-wrap: normal;
     color: #00ff41;
-    font-size: 15px;
-    line-height: 1.4;
+    font-size: 14px;
+    line-height: 1.3;
 }
 
 .input-line {
     display: flex;
-    margin-top: 5px;
+    margin-top: 8px;
 }
 
 #cmdInput {
@@ -78,7 +83,61 @@ body {
     border: none;
     color: #ffffff;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 14px;
     outline: none;
     caret-color: #00ff41;
+}
+
+/* 🎮 Mobile Gamepad Controller Grid (Strictly Center Aligned) */
+.mobile-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 8px;
+    width: 100%;
+}
+
+.row { 
+    display: flex; 
+    justify-content: center;
+    gap: 12px; 
+    width: 100%;
+}
+
+/* Individual D-Pad Control Buttons */
+.btn {
+    width: 65px;
+    height: 55px;
+    background-color: #161b22;
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    transition: all 0.1s ease;
+}
+
+/* Touch Active Feedback */
+.btn:active {
+    background-color: #00ff41;
+    color: #000000;
+    transform: scale(0.95);
+}
+
+/* Restart Button Custom Accent Rules */
+#restartBtn {
+    border-color: #ffbd2e;
+    color: #ffbd2e;
+    font-size: 18px;
+    background-color: #211b10;
+}
+#restartBtn:active {
+    background-color: #ffbd2e;
+    color: #000000;
 }
