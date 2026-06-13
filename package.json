@@ -1,12 +1,13 @@
 {
   "name": "hackos-web-terminal",
   "version": "1.0.0",
-  "description": "Real Desktop CMD Terminal on Web",
+  "description": "Real Heavy Desktop CMD Terminal on Web",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "node-pty": "^1.1.0-beta4"
   }
 }
