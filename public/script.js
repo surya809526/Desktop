@@ -1,18 +1,11 @@
-// Open Window
-
 function openWindow(id){
 
-let win = document.getElementById(id);
-
-win.style.display="block";
-
-dragWindow(win);
+document.getElementById(id)
+.style.display="block";
 
 }
 
 
-
-// Close Window
 
 function closeWindow(id){
 
@@ -23,99 +16,82 @@ document.getElementById(id)
 
 
 
-// Start Menu
-
 function startMenu(){
 
-let menu=document.getElementById("start");
+let m=document.getElementById("menu");
 
-if(menu.style.display=="block"){
 
-menu.style.display="none";
-
-}
-
-else{
-
-menu.style.display="block";
-
-}
+m.style.display =
+m.style.display=="block"
+?"none":"block";
 
 }
 
 
 
 
-// Terminal Commands
-
-function runCommand(){
+async function askAI(){
 
 
-let cmd =
+let text =
 document.getElementById("command")
 .value;
 
 
-let out =
-document.getElementById("terminalOutput");
+
+let output =
+document.getElementById("output");
 
 
 
-if(cmd=="help"){
+output.innerHTML +=
+"<br>> "+text;
 
-out.innerHTML +=
-"<br>Commands: help, clear, date, about";
+
+
+let res =
+await fetch("/ai",{
+
+
+method:"POST",
+
+
+headers:{
+
+
+"Content-Type":"application/json"
+
+
+},
+
+
+body:JSON.stringify({
+
+message:text
+
+})
+
+
+});
+
+
+
+let data =
+await res.json();
+
+
+
+output.innerHTML +=
+"<br><br>"+data.reply;
+
+
 
 }
 
 
-else if(cmd=="clear"){
-
-out.innerHTML="C:\\Users\\User>";
-
-}
 
 
-else if(cmd=="date"){
-
-out.innerHTML +=
-"<br>"+new Date();
-
-}
-
-
-else if(cmd=="about"){
-
-out.innerHTML +=
-"<br>Mobile Desktop OS v1.0";
-
-}
-
-
-else{
-
-
-out.innerHTML +=
-"<br>C:\\Users\\User> "
-+cmd+
-"<br>Command executed";
-
-
-}
-
-
-document.getElementById("command").value="";
-
-}
-
-
-
-
-
-// Code Runner
-
-
-function runCode(){
+function preview(){
 
 
 let code =
@@ -123,92 +99,12 @@ document.getElementById("code")
 .value;
 
 
-let frame =
-document.getElementById("preview");
+
+let win =
+window.open();
 
 
-
-let doc =
-frame.contentDocument ||
-frame.contentWindow.document;
-
-
-
-doc.open();
-
-doc.write(code);
-
-doc.close();
-
-
-
-}
-
-
-
-
-// Draggable Windows
-
-
-function dragWindow(win){
-
-
-let title =
-win.querySelector(".title");
-
-
-let offsetX=0;
-let offsetY=0;
-let dragging=false;
-
-
-
-title.onmousedown=function(e){
-
-
-dragging=true;
-
-
-offsetX =
-e.clientX - win.offsetLeft;
-
-
-offsetY =
-e.clientY - win.offsetTop;
-
-
-}
-
-
-
-document.onmousemove=function(e){
-
-
-if(dragging){
-
-
-win.style.left =
-(e.clientX-offsetX)+"px";
-
-
-win.style.top =
-(e.clientY-offsetY)+"px";
-
-
-}
-
-
-}
-
-
-
-document.onmouseup=function(){
-
-
-dragging=false;
-
-
-}
+win.document.write(code);
 
 
 }
