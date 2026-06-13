@@ -10,9 +10,13 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
+
 const client = new OpenAI({
 
-apiKey: process.env.OPENAI_API_KEY
+    apiKey: process.env.GROQ_API_KEY,
+
+    baseURL:
+    "https://api.groq.com/openai/v1"
 
 });
 
@@ -24,26 +28,32 @@ app.post("/ai", async(req,res)=>{
 try{
 
 
-const prompt=req.body.message;
+const message =
+req.body.message;
 
 
 
 const response =
 await client.chat.completions.create({
 
-model:"gpt-4.1-mini",
+model:
+"llama-3.1-8b-instant",
+
 
 messages:[
 
 {
 role:"system",
+
 content:
-"You are a coding assistant. Give useful code and explanations."
+"You are a coding assistant. Generate clean code and explain briefly."
 },
+
 
 {
 role:"user",
-content:prompt
+
+content:message
 }
 
 ]
@@ -62,11 +72,13 @@ response.choices[0].message.content
 
 }
 
-catch(e){
+catch(error){
+
 
 res.json({
 
-reply:"Error: "+e.message
+reply:
+"AI Error: "+error.message
 
 });
 
@@ -74,7 +86,9 @@ reply:"Error: "+e.message
 }
 
 
+
 });
+
 
 
 
@@ -83,8 +97,11 @@ const PORT =
 process.env.PORT || 3000;
 
 
+
 app.listen(PORT,()=>{
 
-console.log("Server running");
+console.log(
+"Groq AI Desktop Running"
+);
 
 });
