@@ -1,107 +1,54 @@
-const express = require("express");
-const cors = require("cors");
-const OpenAI = require("openai");
+const express = require('express');
+const http = require('http');
+const path = require('path');
+const pty = require('node-pty');
 
 const app = express();
+const server = http.createServer(app);
 
-app.use(cors());
+// Public folder ko static link karna
+app.use(express.static(path.join(__dirname, 'public')));
+
+// JSON parse karne ke liye backend config
 app.use(express.json());
 
-app.use(express.static("public"));
-
-
-
-const client = new OpenAI({
-
-    apiKey: process.env.GROQ_API_KEY,
-
-    baseURL:
-    "https://api.groq.com/openai/v1"
-
+// Jab frontend se command aayegi, toh use asli shell mein chalane ka logic
+let shell = pty.spawn(process.platform === 'win32' ? 'cmd.exe' : 'sh', [], {
+    name: 'xterm-color',
+    cols: 80,
+    rows: 24,
+    cwd: process.env.HOME,
+    env: process.env
 });
 
+// Stream buffer handle karne ke liye route API
+app.post('/api/cmd', (req, res) => {
+    const { command } = req.body;
+    
+    if (!command) {
+        return res.json({ output: "" });
+    }
 
+    let outputBuffer = "";
+    
+    // Command process execution thread listener
+    const dataListener = (data) => {
+        outputBuffer += data;
+    };
 
-app.post("/ai", async(req,res)=>{
+    shell.onData(dataListener);
+    shell.write(command + '\n');
 
-
-try{
-
-
-const message =
-req.body.message;
-
-
-
-const response =
-await client.chat.completions.create({
-
-model:
-"llama-3.1-8b-instant",
-
-
-messages:[
-
-{
-role:"system",
-
-content:
-"You are a coding assistant. Generate clean code and explain briefly."
-},
-
-
-{
-role:"user",
-
-content:message
-}
-
-]
-
+    // Chota sa delay taaki processing output return ho sake
+    setTimeout(() => {
+        shell.offData(dataListener);
+        // ANSI escape codes ko clear text mein badalna
+        let cleanOutput = outputBuffer.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+        res.json({ output: cleanOutput });
+    }, 800);
 });
 
-
-
-res.json({
-
-reply:
-response.choices[0].message.content
-
-});
-
-
-}
-
-catch(error){
-
-
-res.json({
-
-reply:
-"AI Error: "+error.message
-
-});
-
-
-}
-
-
-
-});
-
-
-
-
-
-const PORT =
-process.env.PORT || 3000;
-
-
-
-app.listen(PORT,()=>{
-
-console.log(
-"Groq AI Desktop Running"
-);
-
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`HackOS Engine Live on port ${PORT}`);
 });
