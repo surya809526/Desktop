@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Mobile Desktop OS</title>
+<title>AI Desktop OS</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -16,17 +16,10 @@
 <div class="desktop">
 
 
-<!-- Desktop Icons -->
-
 <div class="icons">
 
 <button onclick="openWindow('terminal')">
-💻 Terminal
-</button>
-
-
-<button onclick="openWindow('files')">
-📁 File Explorer
+💻 AI Terminal
 </button>
 
 
@@ -35,8 +28,8 @@
 </button>
 
 
-<button onclick="openWindow('browser')">
-🌐 Browser
+<button onclick="openWindow('files')">
+📁 Files
 </button>
 
 
@@ -44,32 +37,35 @@
 
 
 
-<!-- Terminal -->
-
 <div class="window" id="terminal">
 
 
 <div class="title">
-💻 Terminal
+AI Terminal
+
 <span onclick="closeWindow('terminal')">
 ✖
 </span>
+
 </div>
 
 
-<div id="terminalOutput">
+<div id="output">
 
+AI Desktop Started...
+
+<br>
 C:\Users\User>
 
 </div>
 
 
 <input id="command"
-placeholder="Type command">
+placeholder="Ask AI or type command">
 
 
-<button onclick="runCommand()">
-RUN
+<button onclick="askAI()">
+RUN AI
 </button>
 
 
@@ -78,14 +74,43 @@ RUN
 
 
 
-<!-- File Explorer -->
+<div class="window" id="editor">
+
+
+<div class="title">
+
+Code Editor
+
+<span onclick="closeWindow('editor')">
+✖
+</span>
+
+</div>
+
+
+<textarea id="code">
+
+<h1>Hello AI</h1>
+
+</textarea>
+
+
+<button onclick="preview()">
+Preview
+</button>
+
+
+</div>
+
+
+
 
 <div class="window" id="files">
 
 
 <div class="title">
 
-📁 File Explorer
+File Explorer
 
 <span onclick="closeWindow('files')">
 ✖
@@ -94,100 +119,25 @@ RUN
 </div>
 
 
-<div class="folder">
+<p>
+📂 Projects
+</p>
 
-📂 Documents
-
-<br><br>
-
-📂 Downloads
-
-<br><br>
-
+<p>
 📄 index.html
+</p>
 
-<br>
-
+<p>
 📄 script.js
+</p>
 
 
 </div>
 
 
-</div>
-
-
-
-
-<!-- Code Editor -->
-
-<div class="window" id="editor">
-
-
-<div class="title">
-
-📝 Code Editor
-
-<span onclick="closeWindow('editor')">
-✖
-</span>
-
-
-</div>
-
-
-<textarea id="code">
-
-<h1>Hello Desktop</h1>
-
-</textarea>
-
-
-<button onclick="runCode()">
-
-Preview
-
-</button>
-
-
-</div>
-
-
-
-
-<!-- Browser -->
-
-<div class="window" id="browser">
-
-
-<div class="title">
-
-🌐 Browser
-
-<span onclick="closeWindow('browser')">
-✖
-</span>
-
-
-</div>
-
-
-<iframe id="preview">
-
-</iframe>
-
-
-</div>
-
-
-
-
-
-<!-- Taskbar -->
 
 
 <div class="taskbar">
-
 
 <button onclick="startMenu()">
 
@@ -196,15 +146,13 @@ Preview
 </button>
 
 
-<div id="start">
+<div id="menu">
 
-<button>
-Settings ⚙️
-</button>
+AI Apps
 
-<button>
-Apps
-</button>
+<br><br>
+
+Code Tools
 
 </div>
 
@@ -212,10 +160,7 @@ Apps
 </div>
 
 
-
-
 </div>
-
 
 
 <script src="script.js"></script>
