@@ -1,110 +1,45 @@
-function openWindow(id){
+const cmdInput = document.getElementById('cmdInput');
+const output = document.getElementById('output');
+const terminalBody = document.getElementById('terminalBody');
 
-document.getElementById(id)
-.style.display="block";
+cmdInput.addEventListener('keydown', async function(e) {
+    if (e.key === 'Enter') {
+        const command = cmdInput.value.trim();
+        cmdInput.value = '';
 
-}
+        if (!command) return;
 
+        // UI screen par user command print karna
+        output.textContent += command + '\n';
 
+        if (command === 'clear') {
+            output.textContent = '$ ';
+            return;
+        }
 
-function closeWindow(id){
+        try {
+            // Render engine ko API request fire karna
+            const response = await fetch('/api/cmd', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ command: command })
+            });
 
-document.getElementById(id)
-.style.display="none";
+            const data = await response.json();
+            
+            // Asli server backend execution output render karna
+            if (data.output) {
+                output.textContent += data.output + '\n$ ';
+            } else {
+                output.textContent += '\n$ ';
+            }
+        } catch (error) {
+            output.textContent += 'Engine Connection Error: Unable to reach cloud server.\n$ ';
+        }
 
-}
-
-
-
-function startMenu(){
-
-let m=document.getElementById("menu");
-
-
-m.style.display =
-m.style.display=="block"
-?"none":"block";
-
-}
-
-
-
-
-async function askAI(){
-
-
-let text =
-document.getElementById("command")
-.value;
-
-
-
-let output =
-document.getElementById("output");
-
-
-
-output.innerHTML +=
-"<br>> "+text;
-
-
-
-let res =
-await fetch("/ai",{
-
-
-method:"POST",
-
-
-headers:{
-
-
-"Content-Type":"application/json"
-
-
-},
-
-
-body:JSON.stringify({
-
-message:text
-
-})
-
-
+        // Auto scroll to bottom standard layout rule
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+    }
 });
-
-
-
-let data =
-await res.json();
-
-
-
-output.innerHTML +=
-"<br><br>"+data.reply;
-
-
-
-}
-
-
-
-
-function preview(){
-
-
-let code =
-document.getElementById("code")
-.value;
-
-
-
-let win =
-window.open();
-
-
-win.document.write(code);
-
-
-}
