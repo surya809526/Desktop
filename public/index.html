@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Mobile Desktop</title>
+<title>Mobile Desktop OS</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -16,40 +16,59 @@
 <div class="desktop">
 
 
+<!-- Desktop Icons -->
+
 <div class="icons">
 
-<button onclick="openTerminal()">💻 Terminal</button>
+<button onclick="openWindow('terminal')">
+💻 Terminal
+</button>
 
-<button>📁 Files</button>
 
-<button>📝 Editor</button>
+<button onclick="openWindow('files')">
+📁 File Explorer
+</button>
+
+
+<button onclick="openWindow('editor')">
+📝 Code Editor
+</button>
+
+
+<button onclick="openWindow('browser')">
+🌐 Browser
+</button>
 
 
 </div>
 
 
 
-<div id="terminal" class="window">
+<!-- Terminal -->
+
+<div class="window" id="terminal">
 
 
 <div class="title">
-Windows Terminal
+💻 Terminal
+<span onclick="closeWindow('terminal')">
+✖
+</span>
 </div>
 
 
-<div id="output">
+<div id="terminalOutput">
 
 C:\Users\User>
 
 </div>
 
 
+<input id="command"
+placeholder="Type command">
 
-<input id="cmd"
-placeholder="type command">
 
-
-<button onclick="runCmd()">
+<button onclick="runCommand()">
 RUN
 </button>
 
@@ -58,15 +77,140 @@ RUN
 
 
 
-<div class="taskbar">
+
+<!-- File Explorer -->
+
+<div class="window" id="files">
 
 
-<button onclick="startMenu()">
-🪟 Start
+<div class="title">
+
+📁 File Explorer
+
+<span onclick="closeWindow('files')">
+✖
+</span>
+
+</div>
+
+
+<div class="folder">
+
+📂 Documents
+
+<br><br>
+
+📂 Downloads
+
+<br><br>
+
+📄 index.html
+
+<br>
+
+📄 script.js
+
+
+</div>
+
+
+</div>
+
+
+
+
+<!-- Code Editor -->
+
+<div class="window" id="editor">
+
+
+<div class="title">
+
+📝 Code Editor
+
+<span onclick="closeWindow('editor')">
+✖
+</span>
+
+
+</div>
+
+
+<textarea id="code">
+
+<h1>Hello Desktop</h1>
+
+</textarea>
+
+
+<button onclick="runCode()">
+
+Preview
+
 </button>
 
 
 </div>
+
+
+
+
+<!-- Browser -->
+
+<div class="window" id="browser">
+
+
+<div class="title">
+
+🌐 Browser
+
+<span onclick="closeWindow('browser')">
+✖
+</span>
+
+
+</div>
+
+
+<iframe id="preview">
+
+</iframe>
+
+
+</div>
+
+
+
+
+
+<!-- Taskbar -->
+
+
+<div class="taskbar">
+
+
+<button onclick="startMenu()">
+
+🪟 Start
+
+</button>
+
+
+<div id="start">
+
+<button>
+Settings ⚙️
+</button>
+
+<button>
+Apps
+</button>
+
+</div>
+
+
+</div>
+
 
 
 
@@ -75,6 +219,7 @@ RUN
 
 
 <script src="script.js"></script>
+
 
 </body>
 
