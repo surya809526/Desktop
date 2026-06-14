@@ -1,10 +1,9 @@
-/* Overall Page Setup */
 body {
     background-color: #0b0f19;
     color: #00ff41;
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
-    padding: 10px;
+    padding: 5px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -13,51 +12,35 @@ body {
     box-sizing: border-box;
 }
 
-/* 💻 Terminal Container - Making it Full Width on Mobile */
 .terminal-container {
     width: 100%;
-    max-width: 900px;
-    height: 60vh; /* Flexibly takes 60% of vertical screen */
+    max-width: 950px;
+    height: 70vh; /* Landscape mein screen space maximization */
     background-color: #000000;
     border: 2px solid #333;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-/* Title Bar Configuration */
 .title-bar {
     background-color: #222;
-    padding: 8px 12px;
+    padding: 6px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #333;
 }
 
-.title {
-    color: #bbb;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-left: 5px;
-}
+.title { color: #bbb; font-size: 12px; font-weight: bold; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-left: 5px; }
 .close { background-color: #ff5f56; }
 .min { background-color: #ffbd2e; }
 .max { background-color: #27c93f; }
 
-/* Terminal Screen Content Window */
 .terminal-body {
     flex: 1;
-    padding: 12px;
+    padding: 8px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -65,79 +48,30 @@ body {
 
 #output {
     margin: 0;
-    white-space: pre; /* Game board grid line height alignment ke liye critical */
-    word-wrap: normal;
-    color: #00ff41;
-    font-size: 14px;
-    line-height: 1.3;
+    white-space: pre;
+    font-size: 12px; /* Responsive compression font size for landscape column adjustments */
+    line-height: 1.2;
 }
 
-.input-line {
-    display: flex;
-    margin-top: 8px;
-}
-
+.input-line { display: flex; margin-top: 5px; }
 #cmdInput {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: #ffffff;
-    font-family: inherit;
-    font-size: 14px;
-    outline: none;
-    caret-color: #00ff41;
+    flex: 1; background: transparent; border: none; color: #fff;
+    font-family: inherit; font-size: 13px; outline: none;
 }
 
-/* 🎮 Mobile Gamepad Controller Grid (Strictly Center Aligned) */
-.mobile-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 15px;
-    gap: 8px;
-    width: 100%;
-}
-
-.row { 
-    display: flex; 
-    justify-content: center;
-    gap: 12px; 
-    width: 100%;
-}
-
-/* Individual D-Pad Control Buttons */
+.mobile-controls { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.row { display: flex; justify-content: center; gap: 10px; }
 .btn {
-    width: 65px;
-    height: 55px;
-    background-color: #161b22;
-    border: 2px solid #00ff41;
-    color: #00ff41;
-    border-radius: 10px;
-    font-size: 22px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-    transition: all 0.1s ease;
+    width: 50px; height: 40px; background-color: #161b22; border: 2px solid #00ff41;
+    color: #00ff41; border-radius: 6px; font-size: 16px; display: flex;
+    justify-content: center; align-items: center; user-select: none;
 }
+.btn:active { background-color: #00ff41; color: #000; }
+#restartBtn { border-color: #ffbd2e; color: #ffbd2e; background-color: #211b10; }
 
-/* Touch Active Feedback */
-.btn:active {
-    background-color: #00ff41;
-    color: #000000;
-    transform: scale(0.95);
-}
+/* 🔄 Landscape Warning Trigger Manager CSS Styles */
+.landscape-warning { display: none; background: #ffbd2e; color: #000; width: 100%; text-align: center; padding: 5px; font-weight: bold; font-size: 14px; }
 
-/* Restart Button Custom Accent Rules */
-#restartBtn {
-    border-color: #ffbd2e;
-    color: #ffbd2e;
-    font-size: 18px;
-    background-color: #211b10;
-}
-#restartBtn:active {
-    background-color: #ffbd2e;
-    color: #000000;
-}
+/* Solitaire execution safety intercept rules */
+body.solitaire-active .mobile-controls { display: none !important; } /* Hide keys for Solitaire typewriter commands format */
+body.solitaire-active .terminal-container { height: 92vh; }
