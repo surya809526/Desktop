@@ -20,9 +20,7 @@ window.triggerMobileKey = function(key) {
 
 function startFreshSpider() {
     initSpiderSolitaire();
-    output.textContent = '$ solitaire\n' + renderSpiderBoard();
-    cmdInput.placeholder = "e.g., move 1 2";
-    terminalBody.scrollTop = terminalBody.scrollHeight;
+    renderGameToTerminal();
 }
 
 function initSpiderSolitaire() {
@@ -48,14 +46,14 @@ function initSpiderSolitaire() {
 }
 
 function renderSpiderBoard() {
-    let board = "\n====================== HACKOS SPIDER SOLITAIRE PRO ======================";
+    let board = "====================== HACKOS SPIDER SOLITAIRE PRO ======================";
     board += `\n📊 Score: ${score}  |  🏆 Completed Sets: ${completedSets}/8  |  🔄 Touch 🔄 to Restart`;
     board += "\n👉 Move Rules: 'move [source_col] [dest_col]' (e.g., move 1 6)";
     board += "\n=========================================================================\n";
     board += " C1   C2   C3   C4   C5   C6   C7   C8   C9   C10\n";
     board += "-------------------------------------------------------------------------\n";
 
-    let maxRows = Math.max(...columns.map(c => c.length));
+    let maxRows = Math.max(...columns.map(c => c.length), 1);
     const shortLabel = { 'Ace': 'A', 'Jack': 'J', 'Queen': 'Q', 'King': 'K' };
 
     for (let r = 0; r < maxRows; r++) {
@@ -73,6 +71,13 @@ function renderSpiderBoard() {
         board += line + "\n";
     }
     return board + "\n$ ";
+}
+
+// Full terminal layout rewrite renderer to completely bypass cache slice issues
+function renderGameToTerminal() {
+    output.textContent = renderSpiderBoard();
+    cmdInput.placeholder = "e.g., move 1 2";
+    terminalBody.scrollTop = terminalBody.scrollHeight;
 }
 
 function checkAndRemoveCompletedSets(colIdx) {
@@ -106,12 +111,10 @@ cmdInput.addEventListener('keydown', async function(e) {
         const lowerCmd = command.toLowerCase();
 
         if (isSolitaireMode) {
-            output.textContent += command + '\n';
-            
             if (lowerCmd === 'exit') {
                 isSolitaireMode = false;
                 document.body.classList.remove('solitaire-active');
-                output.textContent += "Game exited.\n\n$ ";
+                output.textContent = "Game exited.\n\n$ ";
                 cmdInput.placeholder = "Type command...";
                 return;
             }
@@ -126,11 +129,9 @@ cmdInput.addEventListener('keydown', async function(e) {
                 const fromCol = parseInt(parts[1]) - 1;
                 const toCol = parseInt(parts[2]) - 1;
 
-                // Validation check
                 if (fromCol >= 0 && fromCol < 10 && toCol >= 0 && toCol < 10) {
                     if (columns[fromCol].length === 0) {
-                        output.textContent += "⚠️ Column empty hai bhai! Wahan koi patta nahi hai.\n$ ";
-                        terminalBody.scrollTop = terminalBody.scrollHeight;
+                        alert("Column khali hai bhai!");
                         return;
                     }
 
@@ -138,11 +139,9 @@ cmdInput.addEventListener('keydown', async function(e) {
                     let targetCol = columns[toCol];
                     let canMove = false;
                     
-                    // IF TARGET COLUMN IS EMPTY -> ALWAYS ALLOW MOVE
                     if (targetCol.length === 0) {
                         canMove = true;
                     } else {
-                        // SPIDER RULE CHECK
                         let targetCard = targetCol[targetCol.length - 1];
                         const order = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King'];
                         let movingRank = order.indexOf(movingCard.value);
@@ -157,24 +156,18 @@ cmdInput.addEventListener('keydown', async function(e) {
                         columns[toCol].push(columns[fromCol].pop());
                         score--;
                         checkAndRemoveCompletedSets(toCol);
-
-                        // Render board
-                        const lines = output.textContent.split('\n');
-                        output.textContent = lines.slice(0, -(Math.max(...columns.map(c => c.length), 1) + 11)).join('\n'); 
-                        output.textContent += renderSpiderBoard();
+                        
+                        // 🔥 FIXED: Direct full refresh screen call to avoid line chopping bug
+                        renderGameToTerminal();
                     } else {
                         let targetCard = targetCol[targetCol.length - 1];
-                        output.textContent += `⚠️ Rule Error: [${movingCard.value}] ko [${targetCard.value}] ke neeche nahi rakh sakte bhai! Sirf ek number chota patta hi chalega.\n$ `;
+                        alert(`Rule Error: ${movingCard.value} ko ${targetCard.value} ke neeche nahi rakh sakte bhai!`);
                     }
                 } else {
-                    output.textContent += "⚠️ Galat Column Number! Sirf 1 se 10 ke beech daalo (e.g., move 1 5).\n$ ";
+                    alert("Galat column number! 1 se 10 tak hi choose karo.");
                 }
-                terminalBody.scrollTop = terminalBody.scrollHeight;
                 return;
-            } else {
-                output.textContent += "⚠️ Galat command syntax! Use: move 1 2\n$ ";
             }
-            terminalBody.scrollTop = terminalBody.scrollHeight;
             return;
         }
 
