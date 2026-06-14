@@ -3,47 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HackOS Terminal Cloud</title>
+    <title>HackOS Terminal Pro</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Mobile D-Pad Controller Styling */
-        .mobile-controls {
-            display: none; /* Desktop par chupa rahega */
-            flex-direction: column;
-            align-items: center;
-            margin-top: 15px;
-            gap: 5px;
-        }
-        .row { display: flex; gap: 20px; }
-        .btn {
-            width: 60px;
-            height: 50px;
-            background-color: #222;
-            border: 2px solid #00ff41;
-            color: #00ff41;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            user-select: none;
-        }
-        .btn:active {
-            background-color: #00ff41;
-            color: #000;
-        }
-        /* Touch screen detection layer */
-        @media (max-width: 768px) {
-            .mobile-controls { display: flex; }
-        }
-    </style>
 </head>
 <body>
 
+    <div class="landscape-warning">
+        🔄 Please rotate your phone to Landscape Mode to play Solitaire!
+    </div>
+
     <div class="terminal-container">
         <div class="title-bar">
-            <span class="title">Command Prompt - Mobile Engine v1.5</span>
+            <span class="title">Command Prompt - Solitaire Engine v2.0</span>
             <div class="controls">
                 <span class="dot min"></span>
                 <span class="dot max"></span>
@@ -52,7 +23,7 @@
         </div>
         
         <div class="terminal-body" id="terminalBody">
-            <pre id="output">HackOS Cloud Terminal Environment [Version 2026.1.5]&#10;(c) 2026 HackOS Corp. All rights reserved.&#10;&#10;Type 'calc' for Calculator or 'game' for Snake Game!&#10;&#10;$ </pre>
+            <pre id="output">HackOS Terminal Cloud [Version 2026.2.0]&#10;(c) 2026 HackOS Corp.&#10;&#10;Type 'solitaire' and rotate screen to landscape to play!&#10;&#10;$ </pre>
             <div class="input-line">
                 <input type="text" id="cmdInput" autofocus placeholder="Type command..." autocomplete="off">
             </div>
@@ -65,7 +36,7 @@
         </div>
         <div class="row">
             <div class="btn" onclick="triggerMobileKey('a')">◀</div>
-            <div class="btn" id="restartBtn" onclick="triggerMobileKey('r')" style="border-color: #ffbd2e; color: #ffbd2e; font-size: 14px;">🔄</div>
+            <div class="btn" id="restartBtn" onclick="triggerMobileKey('r')">🔄</div>
             <div class="btn" onclick="triggerMobileKey('d')">▶</div>
         </div>
         <div class="row">
